@@ -471,10 +471,13 @@ function AB:SetupMicroBar()
 		hooksecurefunc(microMenu, 'UpdateHelpTicketButtonAnchor', AB.UpdateHelpTicketButtonAnchor)
 	end
 
-	if _G.ResetMicroMenuPosition then
-		_G.ResetMicroMenuPosition()
-	elseif type(_G.UpdateMicroButtonsParent) == 'function' then
-		_G.UpdateMicroButtonsParent(microBar)
+	-- Skip if UpdateMicroButtonsParent is nil (broken by Blizzard in certain client versions)
+	if type(_G.UpdateMicroButtonsParent) == 'function' then
+		if _G.ResetMicroMenuPosition then
+			_G.ResetMicroMenuPosition()
+		else
+			_G.UpdateMicroButtonsParent(microBar)
+		end
 		AB:SecureHook('UpdateMicroButtonsParent')
 	end
 
