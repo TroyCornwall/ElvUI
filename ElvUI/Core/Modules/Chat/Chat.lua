@@ -2400,11 +2400,11 @@ function CH:ChatFrame_MessageEventHandler(frame, event, arg1, arg2, arg3, arg4, 
 end
 
 function CH:ChatFrame_ConfigEventHandler(...)
-	return _G.ChatFrame_ConfigEventHandler(...)
+	
 end
 
 function CH:ChatFrame_SystemEventHandler(frame, event, message, ...)
-	return _G.ChatFrame_SystemEventHandler(frame, event, message, ...)
+	
 end
 
 function CH:ChatFrame_OnEvent(frame, event, ...)
@@ -2415,8 +2415,7 @@ function CH:ChatFrame_OnEvent(frame, event, ...)
 end
 
 function CH:FloatingChatFrame_OnEvent(...)
-	CH:ChatFrame_OnEvent(...)
-	_G.FloatingChatFrame_OnEvent(...)
+	
 end
 
 local function FloatingChatFrameOnEvent(...)
@@ -2809,28 +2808,7 @@ end
 
 tremove(_G.ChatTypeGroup.GUILD, 2)
 function CH:DelayGuildMOTD()
-	local delay, checks, delayFrame = 0, 0, CreateFrame('Frame')
-	tinsert(_G.ChatTypeGroup.GUILD, 2, 'GUILD_MOTD')
-	delayFrame:SetScript('OnUpdate', function(df, elapsed)
-		delay = delay + elapsed
-		if delay < 5 then return end
-		local msg = GetGuildRosterMOTD()
-		if msg and strlen(msg) > 0 then
-			for _, frameName in ipairs(_G.CHAT_FRAMES) do
-				local chat = _G[frameName]
-				if chat and chat:IsEventRegistered('CHAT_MSG_GUILD') then
-					CH:ChatFrame_SystemEventHandler(chat, 'GUILD_MOTD', msg)
-					chat:RegisterEvent('GUILD_MOTD')
-				end
-			end
-			df:SetScript('OnUpdate', nil)
-		else -- 5 seconds can be too fast for the API response. let's try once every 5 seconds (max 5 checks).
-			delay, checks = 0, checks + 1
-			if checks >= 5 then
-				df:SetScript('OnUpdate', nil)
-			end
-		end
-	end)
+	
 end
 
 function CH:SaveChatHistory(event, ...)
@@ -3850,7 +3828,7 @@ function CH:Initialize()
 
 	CH:SecureHook('ChatEdit_ActivateChat')
 	CH:SecureHook('ChatEdit_DeactivateChat')
-	CH:SecureHook('ChatEdit_OnEnterPressed')
+	--CH:SecureHook('ChatEdit_OnEnterPressed')
 	CH:SecureHook('ChatEdit_SetLastActiveWindow')
 	CH:SecureHook('FCFTab_UpdateColors')
 	CH:SecureHook('FCFDock_SelectWindow')
@@ -3864,8 +3842,8 @@ function CH:Initialize()
 	CH:SecureHook('FCF_SetChatWindowFontSize', 'SetChatFont')
 	CH:SecureHook('FCF_UnDockFrame', 'SnappingChanged')
 	CH:SecureHook('RedockChatWindows', 'ClearSnapping')
-	CH:SecureHook('ChatEdit_OnShow', 'ChatEdit_PleaseUntaint')
-	CH:SecureHook('ChatEdit_OnHide', 'ChatEdit_PleaseRetaint')
+	--CH:SecureHook('ChatEdit_OnShow', 'ChatEdit_PleaseUntaint')
+	--CH:SecureHook('ChatEdit_OnHide', 'ChatEdit_PleaseRetaint')
 	CH:SecureHook('FCFDockOverflowButton_UpdatePulseState')
 	CH:SecureHook('UIDropDownMenu_AddButton')
 	CH:SecureHook('GetPlayerInfoByGUID')
