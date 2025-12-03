@@ -2400,7 +2400,9 @@ function CH:ChatFrame_MessageEventHandler(frame, event, arg1, arg2, arg3, arg4, 
 end
 
 function CH:ChatFrame_ConfigEventHandler(...)
-	return _G.ChatFrame_ConfigEventHandler(...)
+	if _G.ChatFrame_ConfigEventHandler then
+		return _G.ChatFrame_ConfigEventHandler(...)
+	end
 end
 
 function CH:ChatFrame_SystemEventHandler(frame, event, message, ...)
